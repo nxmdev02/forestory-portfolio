@@ -601,11 +601,15 @@ h3 {
   font-size: 0;
 }
 
-.portfolio-pagination button:hover:not(:disabled),
-.portfolio-pagination button.active {
+.portfolio-pagination button:hover:not(:disabled) {
   background: var(--walnut);
   color: #fffaf1;
   transform: translateY(-2px);
+}
+
+.portfolio-pagination button.active {
+  background: var(--walnut);
+  color: #fffaf1;
 }
 
 .portfolio-pagination button:disabled {
