@@ -14,11 +14,19 @@ const isOpen = ref(false)
 let observer: IntersectionObserver | null = null
 
 const scrollToElement = (id: string) => {
-  document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  if (!import.meta.client) return
+
+  const target = document.getElementById(id)
+  if (!target) return
+
+  target.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  window.history.replaceState(null, '', `#${id}`)
 }
 
-const scrollToSection = async (id: string) => {
+const scrollToSection = async (id: string, event?: MouseEvent) => {
+  event?.preventDefault()
   isOpen.value = false
+  activeSection.value = id
 
   if (route.path !== '/') {
     await navigateTo({ path: '/', hash: `#${id}` })
@@ -75,13 +83,13 @@ onBeforeUnmount(() => observer?.disconnect())
 
 <template>
   <header class="site-header">
-    <button class="brand" type="button" aria-label="Go to home" @click="scrollToSection('home')">
+    <a class="brand" href="#home" aria-label="Go to home" @click="scrollToSection('home', $event)">
       <span class="brand-mark">WS</span>
       <span class="brand-text">
         <strong>WOOD STUDIO</strong>
         <small>custom woodworking</small>
       </span>
-    </button>
+    </a>
 
     <button
       class="menu-toggle"
@@ -96,15 +104,15 @@ onBeforeUnmount(() => observer?.disconnect())
     </button>
 
     <nav class="nav" :class="{ 'is-open': isOpen }" aria-label="Primary navigation">
-      <button
+      <a
         v-for="section in sections"
         :key="section.id"
-        type="button"
+        :href="`#${section.id}`"
         :class="{ active: route.path === '/' && activeSection === section.id }"
-        @click="scrollToSection(section.id)"
+        @click="scrollToSection(section.id, $event)"
       >
         {{ section.label }}
-      </button>
+      </a>
     </nav>
   </header>
 </template>
