@@ -347,7 +347,13 @@ h3 {
 .folder-card {
   position: relative;
   min-width: 0;
+  cursor: pointer;
   perspective: 1200px;
+}
+
+.folder-card:focus-visible {
+  outline: 3px solid rgba(168, 95, 63, 0.42);
+  outline-offset: 6px;
 }
 
 .folder-tab {
@@ -499,6 +505,7 @@ h3 {
 }
 
 .photo-print {
+  appearance: none;
   display: grid;
   gap: 8px;
   min-width: 0;
@@ -526,9 +533,14 @@ h3 {
   transform: translateY(0) rotate(1.2deg);
 }
 
-.photo-print:hover {
+.photo-print:hover,
+.photo-print.active {
   box-shadow: 0 10px 18px rgba(105, 67, 39, 0.16);
   transform: translateY(-3px) rotate(0deg);
+}
+
+.photo-print.active {
+  border-color: var(--clay);
 }
 
 .photo-print img {

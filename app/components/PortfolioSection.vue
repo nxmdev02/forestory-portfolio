@@ -4,6 +4,7 @@ import type { PortfolioItem } from '~/types/portfolio'
 
 const selectedYear = ref<number | 'all'>('all')
 const activeItem = ref<PortfolioItem | null>(null)
+const activePreviewImage = ref('')
 
 const years = computed(() => [...new Set(portfolioItems.map((item) => item.year))].sort((a, b) => b - a))
 const filteredItems = computed(() =>
@@ -14,10 +15,12 @@ const filteredItems = computed(() =>
 
 const openFolder = (item: PortfolioItem) => {
   activeItem.value = item
+  activePreviewImage.value = item.coverImage
 }
 
 const closeFolder = () => {
   activeItem.value = null
+  activePreviewImage.value = ''
 }
 
 watch(selectedYear, closeFolder)
@@ -63,18 +66,23 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="portfolio-grid">
-      <article v-for="item in filteredItems" :key="item.id" class="folder-card">
+      <article
+        v-for="item in filteredItems"
+        :key="item.id"
+        class="folder-card"
+        role="button"
+        tabindex="0"
+        :aria-label="`Open ${item.title} folder`"
+        @click="openFolder(item)"
+        @keydown.enter.prevent="openFolder(item)"
+        @keydown.space.prevent="openFolder(item)"
+      >
         <div class="folder-tab">
           <span>{{ item.year }}</span>
           <span>{{ categoryLabels[item.category] }}</span>
         </div>
 
-        <button
-          type="button"
-          class="folder-body"
-          :aria-label="`Open ${item.title} folder`"
-          @click="openFolder(item)"
-        >
+        <div class="folder-body">
           <span class="folder-front" aria-hidden="true" />
           <span class="portfolio-image" aria-hidden="true">
             <img :src="item.coverImage" :alt="`${item.title} cover image`">
@@ -84,7 +92,7 @@ onBeforeUnmount(() => {
             <span>{{ item.summary }}</span>
           </span>
           <span class="portfolio-count">{{ item.images.length }} photos</span>
-        </button>
+        </div>
       </article>
     </div>
 
@@ -103,7 +111,7 @@ onBeforeUnmount(() => {
               <span class="folder-modal-front" aria-hidden="true" />
 
               <div class="folder-modal-cover">
-                <img :src="activeItem.coverImage" :alt="`${activeItem.title} cover image`">
+                <img :src="activePreviewImage || activeItem.coverImage" :alt="`${activeItem.title} selected preview`">
               </div>
 
               <div class="folder-modal-copy">
@@ -113,17 +121,18 @@ onBeforeUnmount(() => {
               </div>
 
               <div class="folder-modal-photos" aria-label="Project photos">
-                <NuxtLink
+                <button
                   v-for="(image, index) in activeItem.images"
                   :key="image"
+                  type="button"
                   class="photo-print"
+                  :class="{ active: activePreviewImage === image }"
                   :style="{ '--delay': `${180 + index * 80}ms` }"
-                  :to="`/portfolio/${activeItem.id}`"
-                  @click="closeFolder"
+                  @click="activePreviewImage = image"
                 >
                   <img :src="image" :alt="`${activeItem.title} photo ${index + 1}`">
-                  <span>View Details</span>
-                </NuxtLink>
+                  <span>Preview Photo</span>
+                </button>
               </div>
 
               <NuxtLink class="folder-modal-detail" :to="`/portfolio/${activeItem.id}`" @click="closeFolder">
