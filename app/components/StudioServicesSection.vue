@@ -21,6 +21,7 @@ const services = [
     icon: Layers3
   }
 ]
+const { updateSpotlight, clearSpotlight } = useSpotlightCard()
 </script>
 
 <template>
@@ -31,7 +32,13 @@ const services = [
     </div>
 
     <div class="service-card-grid">
-      <article v-for="service in services" :key="service.title" class="service-card">
+      <article
+        v-for="service in services"
+        :key="service.title"
+        class="service-card interactive-spotlight"
+        @pointermove="updateSpotlight"
+        @pointerleave="clearSpotlight"
+      >
         <img :src="service.image" :alt="`${service.title} background`">
         <div class="service-card-overlay">
           <component :is="service.icon" :size="24" aria-hidden="true" />

@@ -18,6 +18,7 @@ const marqueeItems = [
   'Workshop Build'
 ]
 const marqueeLoop = [...marqueeItems, ...marqueeItems].map((label, index) => ({ label, index }))
+const { updateSpotlight, clearSpotlight } = useSpotlightCard()
 </script>
 
 <template>
@@ -39,7 +40,11 @@ const marqueeLoop = [...marqueeItems, ...marqueeItems].map((label, index) => ({ 
         </div>
       </div>
 
-      <div class="hero-process-tile">
+      <div
+        class="hero-process-tile interactive-spotlight"
+        @pointermove="updateSpotlight"
+        @pointerleave="clearSpotlight"
+      >
         <img src="/images/wood-process-tile.png" alt="Hands marking walnut boards in a woodworking studio">
         <div>
           <strong>Measured slowly. Built to stay.</strong>
@@ -47,7 +52,12 @@ const marqueeLoop = [...marqueeItems, ...marqueeItems].map((label, index) => ({ 
         </div>
       </div>
 
-      <div class="hero-visual" aria-label="Woodworking studio image">
+      <div
+        class="hero-visual interactive-spotlight"
+        aria-label="Woodworking studio image"
+        @pointermove="updateSpotlight"
+        @pointerleave="clearSpotlight"
+      >
         <img
           v-if="!imageFailed"
           src="/images/wood-hero-studio.png"
