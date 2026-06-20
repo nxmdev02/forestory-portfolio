@@ -141,6 +141,7 @@ onBeforeUnmount(() => {
       <button
         v-for="page in totalPages"
         :key="page"
+        class="pagination-page-button"
         type="button"
         :class="{ active: currentPage === page }"
         :aria-current="currentPage === page ? 'page' : undefined"

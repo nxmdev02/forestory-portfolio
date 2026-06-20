@@ -573,6 +573,8 @@ h3 {
   display: grid;
   width: 42px;
   height: 42px;
+  min-width: 42px;
+  min-height: 42px;
   align-items: center;
   justify-content: center;
   place-items: center;
@@ -583,11 +585,20 @@ h3 {
   padding: 0;
   font-weight: 900;
   line-height: 1;
+  text-align: center;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
 }
 
 .portfolio-pagination button svg {
   display: block;
+}
+
+.pagination-page-button {
+  font-variant-numeric: tabular-nums;
+}
+
+.pagination-icon-button {
+  font-size: 0;
 }
 
 .portfolio-pagination button:hover:not(:disabled),
