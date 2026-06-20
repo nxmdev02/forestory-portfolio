@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ExternalLink, Map } from '@lucide/vue'
+
 interface WorkshopLocation {
   lat: number
   lng: number
@@ -95,11 +97,12 @@ onMounted(() => {
   <div class="naver-map-wrapper">
     <div v-if="hasMapKey" ref="mapEl" class="naver-map" :class="{ loaded: isLoaded }" />
     <div v-else class="map-fallback">
-      <span>MAP</span>
+      <span><Map :size="18" aria-hidden="true" /> MAP</span>
       <strong>Map API key is not configured.</strong>
       <p>{{ location.address }}</p>
       <a :href="naverMapUrl" target="_blank" rel="noreferrer">
         View on Naver Map
+        <ExternalLink :size="16" aria-hidden="true" />
       </a>
     </div>
   </div>

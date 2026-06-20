@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { ArrowRight, MapPin } from '@lucide/vue'
+
 const scrollToSection = (id: string, event?: MouseEvent) => {
   event?.preventDefault()
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
@@ -15,8 +17,14 @@ const imageFailed = ref(false)
       <h1>Warm spaces, finished by hand</h1>
       <p class="hero-subtitle">Custom furniture, solid wood interiors, and workshop-built portfolios</p>
       <div class="hero-actions">
-        <a class="btn primary" href="#portfolio" @click="scrollToSection('portfolio', $event)">View Portfolio</a>
-        <a class="btn ghost" href="#location" @click="scrollToSection('location', $event)">Find the Workshop</a>
+        <a class="btn primary" href="#portfolio" @click="scrollToSection('portfolio', $event)">
+          View Portfolio
+          <ArrowRight :size="18" aria-hidden="true" />
+        </a>
+        <a class="btn ghost" href="#location" @click="scrollToSection('location', $event)">
+          <MapPin :size="18" aria-hidden="true" />
+          Find the Workshop
+        </a>
       </div>
     </div>
 

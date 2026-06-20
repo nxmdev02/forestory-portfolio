@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ArrowRight, Camera, ChevronLeft, ChevronRight, FolderOpen, Images, X } from '@lucide/vue'
 import { categoryLabels, portfolioItems } from '~/data/studio'
 import type { PortfolioItem } from '~/types/portfolio'
 
@@ -115,13 +116,19 @@ onBeforeUnmount(() => {
             <strong>{{ item.title }}</strong>
             <span>{{ item.summary }}</span>
           </span>
-          <span class="portfolio-count">{{ item.images.length }} photos</span>
+          <span class="portfolio-count">
+            <Images :size="16" aria-hidden="true" />
+            {{ item.images.length }} photos
+          </span>
         </div>
       </a>
     </div>
 
     <nav v-if="totalPages > 1" class="portfolio-pagination" aria-label="Portfolio pagination">
-      <button type="button" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">Previous</button>
+      <button type="button" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
+        <ChevronLeft :size="16" aria-hidden="true" />
+        Previous
+      </button>
       <button
         v-for="page in totalPages"
         :key="page"
@@ -132,13 +139,18 @@ onBeforeUnmount(() => {
       >
         {{ page }}
       </button>
-      <button type="button" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">Next</button>
+      <button type="button" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
+        Next
+        <ChevronRight :size="16" aria-hidden="true" />
+      </button>
     </nav>
 
     <Teleport to="body">
       <div v-if="activeItem" class="folder-modal-backdrop" role="presentation" @click.self="closeFolder">
         <article class="folder-modal" role="dialog" aria-modal="true" :aria-label="`${activeItem.title} folder preview`">
-          <button class="folder-modal-close" type="button" aria-label="Close folder" @click="closeFolder">x</button>
+          <button class="folder-modal-close" type="button" aria-label="Close folder" @click="closeFolder">
+            <X :size="20" aria-hidden="true" />
+          </button>
 
           <div class="folder-modal-shell">
             <div class="folder-modal-tab">
@@ -170,12 +182,17 @@ onBeforeUnmount(() => {
                   @click="activePreviewImage = image"
                 >
                   <img :src="image" :alt="`${activeItem.title} photo ${index + 1}`">
-                  <span>Preview Photo</span>
+                  <span>
+                    <Camera :size="14" aria-hidden="true" />
+                    Preview Photo
+                  </span>
                 </button>
               </div>
 
               <NuxtLink class="folder-modal-detail" :to="`/portfolio/${activeItem.id}`" @click="closeFolder">
+                <FolderOpen :size="18" aria-hidden="true" />
                 Open Project Detail
+                <ArrowRight :size="18" aria-hidden="true" />
               </NuxtLink>
             </div>
           </div>

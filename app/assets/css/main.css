@@ -173,6 +173,7 @@ h3 {
   position: relative;
   display: inline-flex;
   align-items: center;
+  gap: 6px;
   min-height: 38px;
   border: 0;
   background: transparent;
@@ -227,17 +228,11 @@ h3 {
   display: none;
   width: 42px;
   height: 42px;
+  place-items: center;
   border: 1px solid var(--line);
   border-radius: 50%;
   background: #fff8ed;
-}
-
-.menu-toggle span {
-  display: block;
-  width: 18px;
-  height: 2px;
-  margin: 4px auto;
-  background: var(--walnut);
+  color: var(--walnut);
 }
 
 .hero {
@@ -285,6 +280,7 @@ h3 {
   min-height: 48px;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   border: 1px solid rgba(105, 67, 39, 0.26);
   border-radius: 999px;
   padding: 0 22px;
@@ -373,8 +369,12 @@ h3 {
 }
 
 .portfolio-pagination button {
+  display: inline-flex;
   min-width: 42px;
   min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
   border: 1px solid rgba(105, 67, 39, 0.2);
   border-radius: 999px;
   background: rgba(255, 248, 237, 0.8);
@@ -522,6 +522,9 @@ h3 {
 .portfolio-count {
   position: relative;
   z-index: 1;
+  display: inline-flex;
+  gap: 6px;
+  align-items: center;
   align-self: end;
   justify-self: start;
   border-top: 1px solid rgba(105, 67, 39, 0.18);
@@ -605,6 +608,12 @@ h3 {
   background:
     linear-gradient(135deg, rgba(255, 250, 241, 0.24), rgba(39, 32, 25, 0.18)),
     repeating-linear-gradient(90deg, #8f5e37 0 16px, #bd824b 16px 28px, #704726 28px 44px);
+}
+
+.photo-print span {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
 }
 
 .folder-detail-link {
@@ -775,6 +784,7 @@ h3 {
   min-height: 46px;
   align-items: center;
   justify-content: center;
+  gap: 8px;
   justify-self: start;
   border-radius: 999px;
   background: var(--walnut);
@@ -891,6 +901,9 @@ h3 {
 }
 
 .project-facts dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--clay);
   font-size: 0.78rem;
   font-weight: 900;
@@ -911,6 +924,12 @@ h3 {
 .detail-materials h2,
 .project-story h2 {
   font-size: 1.6rem;
+}
+
+.detail-materials h2 {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .project-story {
@@ -984,12 +1003,21 @@ h3 {
 }
 
 .project-nav .project-nav-list {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
   min-width: 180px;
   justify-content: center;
   background: var(--walnut);
   color: #fffaf1;
   font-weight: 900;
   text-align: center;
+}
+
+.icon-line {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
 }
 
 .project-nav span {
@@ -1165,6 +1193,9 @@ h3 {
 }
 
 .map-fallback span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--clay);
   font-weight: 900;
 }
@@ -1173,6 +1204,7 @@ h3 {
   display: inline-flex;
   min-height: 42px;
   align-items: center;
+  gap: 8px;
   border-radius: 999px;
   background: var(--green);
   color: #fffaf1;
@@ -1193,6 +1225,9 @@ h3 {
 
 .contact-panel dt,
 .detail-list dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--clay);
   font-size: 0.8rem;
   font-weight: 900;
@@ -1231,6 +1266,9 @@ h3 {
 }
 
 .inquiry-info dt {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
   color: var(--clay);
   font-size: 0.8rem;
   font-weight: 900;
@@ -1251,6 +1289,7 @@ h3 {
   display: inline-flex;
   min-height: 40px;
   align-items: center;
+  gap: 7px;
   border: 1px solid rgba(95, 118, 85, 0.22);
   border-radius: 999px;
   background: rgba(95, 118, 85, 0.09);
@@ -1468,7 +1507,7 @@ h3 {
   }
 
   .menu-toggle {
-    display: block;
+    display: grid;
   }
 
   .nav {

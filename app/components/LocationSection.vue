@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { Clock, Mail, MapPin, Phone } from '@lucide/vue'
+
 const workshopLocation = {
   lat: 37.5665,
   lng: 126.978,
@@ -25,18 +27,21 @@ const workshopLocation = {
 
       <aside class="contact-panel">
         <h3>{{ workshopLocation.name }}</h3>
-        <p>{{ workshopLocation.address }}</p>
+        <p class="icon-line">
+          <MapPin :size="18" aria-hidden="true" />
+          {{ workshopLocation.address }}
+        </p>
         <dl>
           <div>
-            <dt>Hours</dt>
+            <dt><Clock :size="15" aria-hidden="true" /> Hours</dt>
             <dd>{{ workshopLocation.hours }}</dd>
           </div>
           <div>
-            <dt>Phone</dt>
+            <dt><Phone :size="15" aria-hidden="true" /> Phone</dt>
             <dd><a :href="`tel:${workshopLocation.phone}`">{{ workshopLocation.phone }}</a></dd>
           </div>
           <div>
-            <dt>Email</dt>
+            <dt><Mail :size="15" aria-hidden="true" /> Email</dt>
             <dd><a :href="`mailto:${workshopLocation.email}`">{{ workshopLocation.email }}</a></dd>
           </div>
         </dl>

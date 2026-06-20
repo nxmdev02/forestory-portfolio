@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { BookOpen, Clock, Globe, Mail, MapPin, Phone, Send } from '@lucide/vue'
+
 const contactInfo = {
   phone: '010-0000-0000',
   email: 'woodstudio@example.com',
@@ -34,25 +36,31 @@ const submitInquiry = () => {
         <h3>WOOD STUDIO</h3>
         <dl>
           <div>
-            <dt>Phone</dt>
+            <dt><Phone :size="15" aria-hidden="true" /> Phone</dt>
             <dd><a :href="`tel:${contactInfo.phone}`">{{ contactInfo.phone }}</a></dd>
           </div>
           <div>
-            <dt>Email</dt>
+            <dt><Mail :size="15" aria-hidden="true" /> Email</dt>
             <dd><a :href="`mailto:${contactInfo.email}`">{{ contactInfo.email }}</a></dd>
           </div>
           <div>
-            <dt>Hours</dt>
+            <dt><Clock :size="15" aria-hidden="true" /> Hours</dt>
             <dd>{{ contactInfo.hours }}</dd>
           </div>
           <div>
-            <dt>Address</dt>
+            <dt><MapPin :size="15" aria-hidden="true" /> Address</dt>
             <dd>{{ contactInfo.address }}</dd>
           </div>
         </dl>
         <div class="social-links" aria-label="Social links">
-          <a :href="contactInfo.instagram" target="_blank" rel="noreferrer">Instagram</a>
-          <a :href="contactInfo.blog" target="_blank" rel="noreferrer">Blog</a>
+          <a :href="contactInfo.instagram" target="_blank" rel="noreferrer">
+            <Globe :size="16" aria-hidden="true" />
+            Instagram
+          </a>
+          <a :href="contactInfo.blog" target="_blank" rel="noreferrer">
+            <BookOpen :size="16" aria-hidden="true" />
+            Blog
+          </a>
         </div>
       </aside>
 
@@ -69,7 +77,10 @@ const submitInquiry = () => {
           <span>Message</span>
           <textarea v-model="form.message" name="message" rows="6" placeholder="Tell us about the furniture or space you have in mind." />
         </label>
-        <button class="btn primary" type="submit">Send Inquiry</button>
+        <button class="btn primary" type="submit">
+          Send Inquiry
+          <Send :size="18" aria-hidden="true" />
+        </button>
         <p v-if="notice" class="form-notice" role="status">{{ notice }}</p>
       </form>
     </div>

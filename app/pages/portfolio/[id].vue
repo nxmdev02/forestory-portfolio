@@ -1,4 +1,5 @@
 <script setup lang="ts">
+import { ArrowLeft, ArrowRight, Calendar, Clock, FolderOpen, MapPin, Package, Tag, User } from '@lucide/vue'
 import { categoryLabels, portfolioItems } from '~/data/studio'
 
 const route = useRoute()
@@ -47,8 +48,14 @@ watch(
         <h1>{{ portfolio.title }}</h1>
         <p>{{ portfolio.summary }}</p>
         <div class="detail-actions">
-          <NuxtLink class="btn ghost" to="/#portfolio">Back to Portfolio</NuxtLink>
-          <NuxtLink class="btn primary" :to="`/portfolio/${nextProject.id}`">Next Project</NuxtLink>
+          <NuxtLink class="btn ghost" to="/#portfolio">
+            <ArrowLeft :size="18" aria-hidden="true" />
+            Back to Portfolio
+          </NuxtLink>
+          <NuxtLink class="btn primary" :to="`/portfolio/${nextProject.id}`">
+            Next Project
+            <ArrowRight :size="18" aria-hidden="true" />
+          </NuxtLink>
         </div>
       </div>
     </section>
@@ -57,29 +64,29 @@ watch(
       <aside class="project-facts" aria-label="Project information">
         <dl>
           <div>
-            <dt>Year</dt>
+            <dt><Calendar :size="15" aria-hidden="true" /> Year</dt>
             <dd>{{ portfolio.year }}</dd>
           </div>
           <div>
-            <dt>Category</dt>
+            <dt><Tag :size="15" aria-hidden="true" /> Category</dt>
             <dd>{{ categoryLabels[portfolio.category] }}</dd>
           </div>
           <div v-if="portfolio.period">
-            <dt>Period</dt>
+            <dt><Clock :size="15" aria-hidden="true" /> Period</dt>
             <dd>{{ portfolio.period }}</dd>
           </div>
           <div v-if="portfolio.location">
-            <dt>Location</dt>
+            <dt><MapPin :size="15" aria-hidden="true" /> Location</dt>
             <dd>{{ portfolio.location }}</dd>
           </div>
           <div v-if="portfolio.client">
-            <dt>Client</dt>
+            <dt><User :size="15" aria-hidden="true" /> Client</dt>
             <dd>{{ portfolio.client }}</dd>
           </div>
         </dl>
 
         <div class="detail-materials">
-          <h2>Wood / Materials</h2>
+          <h2><Package :size="20" aria-hidden="true" /> Wood / Materials</h2>
           <div class="material-list">
             <span v-for="material in portfolio.materials" :key="material">{{ material }}</span>
           </div>
@@ -123,7 +130,10 @@ watch(
         <span>Previous Project</span>
         <strong>{{ previousProject.title }}</strong>
       </NuxtLink>
-      <NuxtLink class="project-nav-list" to="/#portfolio">Back to Portfolio</NuxtLink>
+      <NuxtLink class="project-nav-list" to="/#portfolio">
+        <FolderOpen :size="18" aria-hidden="true" />
+        Back to Portfolio
+      </NuxtLink>
       <NuxtLink :to="`/portfolio/${nextProject.id}`">
         <span>Next Project</span>
         <strong>{{ nextProject.title }}</strong>
