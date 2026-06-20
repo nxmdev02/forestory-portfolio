@@ -66,15 +66,13 @@ onBeforeUnmount(() => {
     </div>
 
     <div class="portfolio-grid">
-      <article
+      <a
         v-for="item in filteredItems"
         :key="item.id"
         class="folder-card"
-        role="button"
-        tabindex="0"
+        :href="`/portfolio/${item.id}`"
         :aria-label="`Open ${item.title} folder`"
-        @click="openFolder(item)"
-        @keydown.enter.prevent="openFolder(item)"
+        @click.prevent="openFolder(item)"
         @keydown.space.prevent="openFolder(item)"
       >
         <div class="folder-tab">
@@ -93,7 +91,7 @@ onBeforeUnmount(() => {
           </span>
           <span class="portfolio-count">{{ item.images.length }} photos</span>
         </div>
-      </article>
+      </a>
     </div>
 
     <Teleport to="body">

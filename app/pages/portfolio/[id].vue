@@ -2,7 +2,6 @@
 import { categoryLabels, portfolioItems } from '~/data/studio'
 
 const route = useRoute()
-const router = useRouter()
 
 const portfolio = computed(() => portfolioItems.find((item) => item.id === route.params.id))
 const activeImage = ref('')
@@ -34,9 +33,6 @@ watch(
   { immediate: true }
 )
 
-const backToList = async () => {
-  await router.push({ path: '/', hash: '#portfolio' })
-}
 </script>
 
 <template>
@@ -51,7 +47,7 @@ const backToList = async () => {
         <h1>{{ portfolio.title }}</h1>
         <p>{{ portfolio.summary }}</p>
         <div class="detail-actions">
-          <button class="btn ghost" type="button" @click="backToList">Back to Portfolio</button>
+          <NuxtLink class="btn ghost" to="/#portfolio">Back to Portfolio</NuxtLink>
           <NuxtLink class="btn primary" :to="`/portfolio/${nextProject.id}`">Next Project</NuxtLink>
         </div>
       </div>
@@ -127,7 +123,7 @@ const backToList = async () => {
         <span>Previous Project</span>
         <strong>{{ previousProject.title }}</strong>
       </NuxtLink>
-      <button type="button" @click="backToList">Back to Portfolio</button>
+      <NuxtLink class="project-nav-list" to="/#portfolio">Back to Portfolio</NuxtLink>
       <NuxtLink :to="`/portfolio/${nextProject.id}`">
         <span>Next Project</span>
         <strong>{{ nextProject.title }}</strong>

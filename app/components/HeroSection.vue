@@ -1,6 +1,8 @@
 <script setup lang="ts">
-const scrollToSection = (id: string) => {
+const scrollToSection = (id: string, event?: MouseEvent) => {
+  event?.preventDefault()
   document.getElementById(id)?.scrollIntoView({ behavior: 'smooth', block: 'start' })
+  window.history.replaceState(null, '', `#${id}`)
 }
 
 const imageFailed = ref(false)
@@ -13,8 +15,8 @@ const imageFailed = ref(false)
       <h1>Warm spaces, finished by hand</h1>
       <p class="hero-subtitle">Custom furniture, solid wood interiors, and workshop-built portfolios</p>
       <div class="hero-actions">
-        <button class="btn primary" type="button" @click="scrollToSection('portfolio')">View Portfolio</button>
-        <button class="btn ghost" type="button" @click="scrollToSection('location')">Find the Workshop</button>
+        <a class="btn primary" href="#portfolio" @click="scrollToSection('portfolio', $event)">View Portfolio</a>
+        <a class="btn ghost" href="#location" @click="scrollToSection('location', $event)">Find the Workshop</a>
       </div>
     </div>
 

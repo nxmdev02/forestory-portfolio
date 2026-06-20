@@ -281,11 +281,15 @@ h3 {
 }
 
 .btn {
+  display: inline-flex;
   min-height: 48px;
+  align-items: center;
+  justify-content: center;
   border: 1px solid rgba(105, 67, 39, 0.26);
   border-radius: 999px;
   padding: 0 22px;
   font-weight: 800;
+  text-decoration: none;
 }
 
 .btn.primary {
@@ -351,8 +355,10 @@ h3 {
 .folder-card {
   position: relative;
   min-width: 0;
+  color: inherit;
   cursor: pointer;
   perspective: 1200px;
+  text-decoration: none;
 }
 
 .folder-card:focus-visible {
@@ -815,7 +821,7 @@ h3 {
 
 .detail-actions a,
 .project-nav a,
-.project-nav button {
+.project-nav .project-nav-list {
   text-decoration: none;
 }
 
@@ -921,8 +927,7 @@ h3 {
   padding-top: 0;
 }
 
-.project-nav a,
-.project-nav button {
+.project-nav a {
   display: grid;
   min-height: 96px;
   align-content: center;
@@ -934,7 +939,7 @@ h3 {
   text-align: left;
 }
 
-.project-nav button {
+.project-nav .project-nav-list {
   min-width: 180px;
   justify-content: center;
   background: var(--walnut);
@@ -1673,8 +1678,7 @@ h3 {
     padding: 18px;
   }
 
-  .project-nav a,
-  .project-nav button {
+  .project-nav a {
     min-height: 84px;
   }
 }
