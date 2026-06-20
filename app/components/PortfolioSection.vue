@@ -5,6 +5,8 @@ import type { PortfolioItem } from '~/types/portfolio'
 const selectedYear = ref<number | 'all'>('all')
 const activeItem = ref<PortfolioItem | null>(null)
 const activePreviewImage = ref('')
+const currentPage = ref(1)
+const itemsPerPage = 6
 
 const years = computed(() => [...new Set(portfolioItems.map((item) => item.year))].sort((a, b) => b - a))
 const filteredItems = computed(() =>
@@ -12,6 +14,22 @@ const filteredItems = computed(() =>
     ? portfolioItems
     : portfolioItems.filter((item) => item.year === selectedYear.value)
 )
+const totalPages = computed(() => Math.max(1, Math.ceil(filteredItems.value.length / itemsPerPage)))
+const paginatedItems = computed(() => {
+  const start = (currentPage.value - 1) * itemsPerPage
+  return filteredItems.value.slice(start, start + itemsPerPage)
+})
+const paginationLabel = computed(() => {
+  if (!filteredItems.value.length) return 'No projects found'
+
+  const start = (currentPage.value - 1) * itemsPerPage + 1
+  const end = Math.min(currentPage.value * itemsPerPage, filteredItems.value.length)
+  return `Showing ${start}-${end} of ${filteredItems.value.length} projects`
+})
+
+const goToPage = (page: number) => {
+  currentPage.value = Math.min(Math.max(page, 1), totalPages.value)
+}
 
 const openFolder = (item: PortfolioItem) => {
   activeItem.value = item
@@ -23,7 +41,10 @@ const closeFolder = () => {
   activePreviewImage.value = ''
 }
 
-watch(selectedYear, closeFolder)
+watch(selectedYear, () => {
+  currentPage.value = 1
+  closeFolder()
+})
 
 watch(activeItem, (item) => {
   if (import.meta.client) {
@@ -65,9 +86,14 @@ onBeforeUnmount(() => {
       </button>
     </div>
 
+    <div class="portfolio-toolbar" aria-live="polite">
+      <span>{{ paginationLabel }}</span>
+      <span>Page {{ currentPage }} of {{ totalPages }}</span>
+    </div>
+
     <div class="portfolio-grid">
       <a
-        v-for="item in filteredItems"
+        v-for="item in paginatedItems"
         :key="item.id"
         class="folder-card"
         :href="`/portfolio/${item.id}`"
@@ -93,6 +119,21 @@ onBeforeUnmount(() => {
         </div>
       </a>
     </div>
+
+    <nav v-if="totalPages > 1" class="portfolio-pagination" aria-label="Portfolio pagination">
+      <button type="button" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">Previous</button>
+      <button
+        v-for="page in totalPages"
+        :key="page"
+        type="button"
+        :class="{ active: currentPage === page }"
+        :aria-current="currentPage === page ? 'page' : undefined"
+        @click="goToPage(page)"
+      >
+        {{ page }}
+      </button>
+      <button type="button" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">Next</button>
+    </nav>
 
     <Teleport to="body">
       <div v-if="activeItem" class="folder-modal-backdrop" role="presentation" @click.self="closeFolder">
