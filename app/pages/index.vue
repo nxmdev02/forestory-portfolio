@@ -1,6 +1,7 @@
 <template>
   <main>
     <HeroSection />
+    <StudioServicesSection />
     <PortfolioSection />
     <HistorySection />
     <TeamSection />

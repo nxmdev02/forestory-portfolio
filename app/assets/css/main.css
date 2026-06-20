@@ -418,6 +418,96 @@ h3 {
   color: #fff;
 }
 
+.services-section {
+  background: var(--dark);
+  color: #fff;
+  padding-top: 72px;
+}
+
+.compact-heading {
+  max-width: 900px;
+}
+
+.compact-heading h2 {
+  max-width: 820px;
+  font-size: clamp(2rem, 4.5vw, 4.5rem);
+}
+
+.service-card-grid {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.service-card {
+  position: relative;
+  min-height: 360px;
+  overflow: hidden;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background: #171d1b;
+}
+
+.service-card img {
+  width: 100%;
+  height: 100%;
+  min-height: 360px;
+  object-fit: cover;
+  filter: saturate(0.9);
+  transform: scale(1.02);
+  transition: transform 0.45s ease, filter 0.45s ease;
+}
+
+.service-card::after {
+  position: absolute;
+  inset: 0;
+  content: "";
+  background:
+    linear-gradient(180deg, rgba(13, 20, 18, 0.2), rgba(13, 20, 18, 0.78)),
+    rgba(13, 20, 18, 0.28);
+}
+
+.service-card:hover img {
+  filter: saturate(1.04);
+  transform: scale(1.06);
+}
+
+.service-card-overlay {
+  position: absolute;
+  inset: auto 0 0;
+  z-index: 1;
+  display: grid;
+  gap: 10px;
+  justify-items: center;
+  padding: 30px;
+  color: #fff;
+  text-align: center;
+}
+
+.service-card-overlay svg {
+  color: var(--cyan);
+}
+
+.service-card-overlay h3 {
+  margin-bottom: 0;
+  font-size: 1.35rem;
+}
+
+.service-card-overlay p {
+  max-width: 340px;
+  margin-bottom: 6px;
+  color: rgba(255, 255, 255, 0.78);
+  line-height: 1.6;
+}
+
+.service-card-overlay span {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  color: var(--cyan);
+  font-weight: 900;
+}
+
 .year-filter {
   display: flex;
   flex-wrap: wrap;
@@ -1487,18 +1577,84 @@ h3 {
 }
 
 .site-footer {
+  display: grid;
+  gap: 34px;
+  border-top: 1px solid rgba(255, 255, 255, 0.1);
+  padding: 34px clamp(20px, 5vw, 72px) 28px;
+  background: var(--dark);
+  color: #fff;
+}
+
+.footer-brand-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  gap: 28px;
+  align-items: center;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+  padding-bottom: 28px;
+}
+
+.footer-brand-row strong {
+  font-size: 1.5rem;
+}
+
+.footer-brand-row span,
+.site-footer p,
+.site-footer span {
+  color: rgba(255, 255, 255, 0.72);
+}
+
+.footer-cta {
+  display: inline-flex;
+  min-height: 42px;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid var(--cyan);
+  border-radius: 999px;
+  color: var(--cyan);
+  padding: 0 24px;
+  font-weight: 900;
+  text-decoration: none;
+}
+
+.footer-grid {
+  display: grid;
+  grid-template-columns: minmax(0, 1.4fr) minmax(220px, 0.9fr) minmax(160px, 0.7fr);
+  gap: clamp(28px, 7vw, 120px);
+}
+
+.footer-grid > div {
+  display: grid;
+  align-content: start;
+  gap: 14px;
+}
+
+.site-footer h2 {
+  margin: 0 0 8px;
+  color: #fff;
+  font-size: 0.9rem;
+}
+
+.site-footer a,
+.site-footer .footer-grid span {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  color: rgba(255, 255, 255, 0.82);
+  text-decoration: none;
+}
+
+.site-footer a:hover {
+  color: var(--cyan);
+}
+
+.footer-bottom {
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;
   gap: 12px;
-  border-top: 1px solid var(--line);
-  padding: 28px clamp(20px, 5vw, 72px);
-  background: var(--dark);
-  color: #fffaf1;
-}
-
-.site-footer span {
-  color: #d8c9b6;
+  padding-top: 24px;
+  font-size: 0.86rem;
 }
 
 .modal-backdrop {
@@ -1640,7 +1796,8 @@ h3 {
   }
 
   .portfolio-grid,
-  .team-grid {
+  .team-grid,
+  .service-card-grid {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
@@ -1654,6 +1811,15 @@ h3 {
 
   .project-nav {
     grid-template-columns: 1fr;
+  }
+
+  .footer-brand-row,
+  .footer-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .footer-cta {
+    justify-self: start;
   }
 }
 
@@ -1734,8 +1900,14 @@ h3 {
   }
 
   .portfolio-grid,
-  .team-grid {
+  .team-grid,
+  .service-card-grid {
     grid-template-columns: 1fr;
+  }
+
+  .service-card,
+  .service-card img {
+    min-height: 320px;
   }
 
   .folder-body {
@@ -1856,6 +2028,14 @@ h3 {
     bottom: 18px;
     width: auto;
     transform: none;
+  }
+
+  .footer-brand-row {
+    gap: 12px;
+  }
+
+  .footer-grid {
+    gap: 28px;
   }
 }
 
