@@ -1,30 +1,34 @@
 <script setup lang="ts">
 import { ArrowLeft, ArrowRight, Calendar, Clock, FolderOpen, MapPin, Package, Tag, User } from '@lucide/vue'
-import { categoryLabels, portfolioItems } from '~/data/studio'
+import { categoryLabels } from '~/data/studio'
 
 const route = useRoute()
+const isReady = ref(false)
+const { allPortfolioItems, loadManagedItems } = usePortfolioStore()
 
-const portfolio = computed(() => portfolioItems.find((item) => item.id === route.params.id))
+const portfolio = computed(() => allPortfolioItems.value.find((item) => item.id === route.params.id))
 const activeImage = ref('')
 
 const currentIndex = computed(() =>
-  portfolio.value ? portfolioItems.findIndex((item) => item.id === portfolio.value?.id) : -1
+  portfolio.value ? allPortfolioItems.value.findIndex((item) => item.id === portfolio.value?.id) : -1
 )
 const previousProject = computed(() =>
-  currentIndex.value > 0 ? portfolioItems[currentIndex.value - 1] : portfolioItems[portfolioItems.length - 1]
+  currentIndex.value > 0 ? allPortfolioItems.value[currentIndex.value - 1] : allPortfolioItems.value[allPortfolioItems.value.length - 1]
 )
 const nextProject = computed(() =>
-  currentIndex.value >= 0 && currentIndex.value < portfolioItems.length - 1
-    ? portfolioItems[currentIndex.value + 1]
-    : portfolioItems[0]
+  currentIndex.value >= 0 && currentIndex.value < allPortfolioItems.value.length - 1
+    ? allPortfolioItems.value[currentIndex.value + 1]
+    : allPortfolioItems.value[0]
 )
 
 watch(
-  portfolio,
-  (item) => {
-    if (!item) {
+  [portfolio, isReady],
+  ([item, ready]) => {
+    if (!item && ready) {
       throw createError({ statusCode: 404, statusMessage: 'Portfolio item not found.' })
     }
+    if (!item) return
+
     activeImage.value = item.images[0] || item.coverImage
     useSeoMeta({
       title: `${item.title} | WOOD STUDIO`,
@@ -33,6 +37,11 @@ watch(
   },
   { immediate: true }
 )
+
+onMounted(() => {
+  loadManagedItems()
+  isReady.value = true
+})
 
 </script>
 

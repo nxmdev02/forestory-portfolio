@@ -1,6 +1,6 @@
 <script setup lang="ts">
 import { ArrowRight, Camera, ChevronLeft, ChevronRight, FolderOpen, Images, X } from '@lucide/vue'
-import { categoryLabels, portfolioItems } from '~/data/studio'
+import { categoryLabels } from '~/data/studio'
 import type { PortfolioItem } from '~/types/portfolio'
 
 const selectedYear = ref<number | 'all'>('all')
@@ -8,12 +8,13 @@ const activeItem = ref<PortfolioItem | null>(null)
 const activePreviewImage = ref('')
 const currentPage = ref(1)
 const itemsPerPage = 6
+const { allPortfolioItems, loadManagedItems } = usePortfolioStore()
 
-const years = computed(() => [...new Set(portfolioItems.map((item) => item.year))].sort((a, b) => b - a))
+const years = computed(() => [...new Set(allPortfolioItems.value.map((item) => item.year))].sort((a, b) => b - a))
 const filteredItems = computed(() =>
   selectedYear.value === 'all'
-    ? portfolioItems
-    : portfolioItems.filter((item) => item.year === selectedYear.value)
+    ? allPortfolioItems.value
+    : allPortfolioItems.value.filter((item) => item.year === selectedYear.value)
 )
 const totalPages = computed(() => Math.max(1, Math.ceil(filteredItems.value.length / itemsPerPage)))
 const paginatedItems = computed(() => {
@@ -59,7 +60,10 @@ const onKeydown = (event: KeyboardEvent) => {
   }
 }
 
-onMounted(() => window.addEventListener('keydown', onKeydown))
+onMounted(() => {
+  loadManagedItems()
+  window.addEventListener('keydown', onKeydown)
+})
 onBeforeUnmount(() => {
   window.removeEventListener('keydown', onKeydown)
   document.body.classList.remove('modal-open')

@@ -1603,6 +1603,219 @@ h3 {
   font-weight: 900;
 }
 
+.admin-page {
+  min-height: 100vh;
+  background: var(--dark);
+  color: #fff;
+}
+
+.admin-hero {
+  display: grid;
+  gap: 18px;
+  padding: clamp(44px, 8vw, 94px) clamp(18px, 5vw, 72px) 34px;
+}
+
+.admin-hero h1 {
+  max-width: 840px;
+  color: #fff;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+}
+
+.admin-hero p:not(.eyebrow) {
+  max-width: 680px;
+  color: rgba(255, 255, 255, 0.72);
+  font-size: 1.05rem;
+  line-height: 1.8;
+}
+
+.admin-hero .btn.ghost {
+  width: fit-content;
+  border-color: rgba(255, 255, 255, 0.22);
+  color: #fff;
+}
+
+.admin-layout {
+  display: grid;
+  grid-template-columns: minmax(0, 1.35fr) minmax(320px, 0.75fr);
+  gap: 24px;
+  padding: 0 clamp(18px, 5vw, 72px) clamp(56px, 8vw, 96px);
+}
+
+.admin-form,
+.admin-list {
+  display: grid;
+  gap: 18px;
+  align-content: start;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 24px;
+  background: #f7f4ef;
+  color: var(--ink);
+  padding: clamp(20px, 3vw, 34px);
+}
+
+.admin-form-heading {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 14px;
+}
+
+.admin-form-heading h2 {
+  margin: 0;
+  font-size: 1.35rem;
+}
+
+.admin-form-heading span {
+  color: var(--muted);
+  font-weight: 800;
+}
+
+.admin-form label {
+  display: grid;
+  gap: 8px;
+}
+
+.admin-form label span,
+.admin-file-drop span {
+  color: var(--ink);
+  font-size: 0.86rem;
+  font-weight: 900;
+}
+
+.admin-form input,
+.admin-form textarea,
+.admin-form select {
+  width: 100%;
+  border: 1px solid #ded2c3;
+  border-radius: 16px;
+  background: #fff;
+  color: var(--ink);
+  padding: 13px 14px;
+  font: inherit;
+}
+
+.admin-form textarea {
+  resize: vertical;
+}
+
+.admin-form input:focus,
+.admin-form textarea:focus,
+.admin-form select:focus {
+  outline: 3px solid rgba(72, 197, 238, 0.24);
+  border-color: var(--cyan);
+}
+
+.admin-form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 14px;
+}
+
+.admin-file-drop {
+  display: grid;
+  justify-items: center;
+  gap: 8px;
+  border: 1px dashed #cbb9a5;
+  border-radius: 18px;
+  background: #fffaf3;
+  padding: 24px;
+  color: var(--oak);
+  text-align: center;
+  cursor: pointer;
+}
+
+.admin-file-drop small {
+  color: var(--muted);
+}
+
+.admin-file-drop input {
+  display: none;
+}
+
+.admin-upload-preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(86px, 1fr));
+  gap: 10px;
+}
+
+.admin-upload-preview img {
+  width: 100%;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.admin-list {
+  background: #111816;
+  color: #fff;
+}
+
+.admin-list .admin-form-heading h2 {
+  color: #fff;
+}
+
+.admin-empty {
+  color: rgba(255, 255, 255, 0.64);
+}
+
+.admin-list-item {
+  display: grid;
+  grid-template-columns: 76px 1fr auto;
+  gap: 14px;
+  align-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  border-radius: 18px;
+  background: rgba(255, 255, 255, 0.04);
+  padding: 12px;
+}
+
+.admin-list-item img {
+  width: 76px;
+  aspect-ratio: 1;
+  border-radius: 12px;
+  object-fit: cover;
+}
+
+.admin-list-item div:not(.admin-list-actions) {
+  display: grid;
+  gap: 4px;
+  min-width: 0;
+}
+
+.admin-list-item span,
+.admin-list-item small {
+  color: rgba(255, 255, 255, 0.62);
+}
+
+.admin-list-item strong,
+.admin-list-item small {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.admin-list-actions {
+  display: flex;
+  gap: 8px;
+}
+
+.admin-list-actions button {
+  display: grid;
+  width: 36px;
+  height: 36px;
+  place-items: center;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  border-radius: 999px;
+  background: transparent;
+  color: #fff;
+  cursor: pointer;
+}
+
+.admin-list-actions button:hover {
+  border-color: var(--cyan);
+  color: var(--cyan);
+}
+
 .site-footer {
   display: grid;
   gap: 34px;
@@ -1845,6 +2058,10 @@ h3 {
     grid-template-columns: 1fr;
   }
 
+  .admin-layout {
+    grid-template-columns: 1fr;
+  }
+
   .footer-cta {
     justify-self: start;
   }
@@ -1935,6 +2152,15 @@ h3 {
   .service-card,
   .service-card img {
     min-height: 320px;
+  }
+
+  .admin-form-grid,
+  .admin-list-item {
+    grid-template-columns: 1fr;
+  }
+
+  .admin-list-actions {
+    justify-content: flex-start;
   }
 
   .folder-body {
