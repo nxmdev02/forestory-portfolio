@@ -1,13 +1,13 @@
 <script setup lang="ts">
-import { BriefcaseBusiness, Clock, Home, Mail, MapPin, Menu, Users, X } from '@lucide/vue'
+import { Menu, X } from '@lucide/vue'
 
 const sections = [
-  { id: 'home', label: 'Home', icon: Home },
-  { id: 'portfolio', label: 'Portfolio', icon: BriefcaseBusiness },
-  { id: 'history', label: 'History', icon: Clock },
-  { id: 'team', label: 'Team', icon: Users },
-  { id: 'location', label: 'Location', icon: MapPin },
-  { id: 'contact', label: 'Contact', icon: Mail }
+  { id: 'home', label: 'Home' },
+  { id: 'portfolio', label: 'Portfolio' },
+  { id: 'history', label: 'History' },
+  { id: 'team', label: 'Team' },
+  { id: 'location', label: 'Location' },
+  { id: 'contact', label: 'Contact' }
 ]
 
 const route = useRoute()
@@ -112,7 +112,6 @@ onBeforeUnmount(() => observer?.disconnect())
         :class="{ active: route.path === '/' && activeSection === section.id }"
         @click="scrollToSection(section.id, $event)"
       >
-        <component :is="section.icon" :size="16" aria-hidden="true" />
         {{ section.label }}
       </a>
     </nav>
