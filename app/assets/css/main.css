@@ -1628,6 +1628,7 @@ h3 {
   color: rgba(255, 255, 255, 0.72);
   font-size: 1.05rem;
   line-height: 1.8;
+  overflow-wrap: anywhere;
 }
 
 .admin-hero .btn.ghost {
@@ -1678,6 +1679,39 @@ h3 {
 .admin-form-heading span {
   color: var(--muted);
   font-weight: 800;
+}
+
+.admin-login-layout {
+  grid-template-columns: minmax(0, 520px);
+}
+
+.admin-login-form {
+  max-width: 520px;
+}
+
+.admin-session-bar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 10px;
+  border: 1px solid #ded2c3;
+  border-radius: 16px;
+  background: #fff;
+  padding: 12px 14px;
+}
+
+.admin-session-bar span {
+  color: var(--muted);
+  font-weight: 900;
+}
+
+.admin-session-bar button {
+  border: 0;
+  background: transparent;
+  color: var(--walnut);
+  font-weight: 900;
+  cursor: pointer;
 }
 
 .admin-form label {
@@ -1777,6 +1811,10 @@ h3 {
 
 .admin-empty {
   color: rgba(255, 255, 255, 0.64);
+}
+
+.admin-form .admin-empty {
+  color: var(--muted);
 }
 
 .admin-list-item {

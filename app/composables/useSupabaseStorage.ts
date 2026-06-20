@@ -1,5 +1,3 @@
-import { createClient } from '@supabase/supabase-js'
-
 const createSafeFileName = (file: File) => {
   const extension = file.name.split('.').pop()?.toLowerCase() || 'jpg'
   const safeBase = file.name
@@ -21,8 +19,9 @@ const readFileAsDataUrl = (file: File) =>
 
 export const useSupabaseStorage = () => {
   const config = useRuntimeConfig()
+  const { client, isSupabaseConfigured: isSupabaseClientConfigured } = useSupabaseClient()
   const isSupabaseConfigured = computed(() =>
-    Boolean(config.public.supabaseUrl && config.public.supabaseAnonKey && config.public.supabaseStorageBucket)
+    Boolean(isSupabaseClientConfigured.value && config.public.supabaseStorageBucket)
   )
 
   const uploadPortfolioImage = async (file: File) => {
@@ -33,10 +32,9 @@ export const useSupabaseStorage = () => {
       }
     }
 
-    const supabase = createClient(
-      String(config.public.supabaseUrl),
-      String(config.public.supabaseAnonKey)
-    )
+    const supabase = client.value
+    if (!supabase) throw new Error('Supabase is not configured.')
+
     const bucket = String(config.public.supabaseStorageBucket)
     const path = `portfolio/${new Date().getFullYear()}/${createSafeFileName(file)}`
     const { error } = await supabase.storage.from(bucket).upload(path, file, {

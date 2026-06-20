@@ -6,9 +6,10 @@ export default defineNuxtConfig({
   runtimeConfig: {
     public: {
       naverMapClientId: process.env.NUXT_PUBLIC_NAVER_MAP_CLIENT_ID || '',
-      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || '',
+      supabaseUrl: process.env.NUXT_PUBLIC_SUPABASE_URL || 'https://jpwoihbzgfmplobhsrrj.supabase.co',
       supabaseAnonKey: process.env.NUXT_PUBLIC_SUPABASE_ANON_KEY || '',
-      supabaseStorageBucket: process.env.NUXT_PUBLIC_SUPABASE_STORAGE_BUCKET || 'portfolio-images'
+      supabaseStorageBucket: process.env.NUXT_PUBLIC_SUPABASE_STORAGE_BUCKET || 'portfolio-images',
+      adminEmail: process.env.NUXT_PUBLIC_ADMIN_EMAIL || 'nxmdev02@gmail.com'
     }
   },
   app: {

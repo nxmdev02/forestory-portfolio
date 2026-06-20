@@ -20,11 +20,25 @@ const emptyForm = () => ({
 
 const form = reactive(emptyForm())
 const notice = ref('')
+const loginForm = reactive({
+  email: 'nxmdev02@gmail.com',
+  password: ''
+})
 const uploadedImages = ref<string[]>([])
 const editingId = ref('')
 const { managedItems, loadManagedItems, saveManagedItem, deleteManagedItem } = usePortfolioStore()
 const { isSupabaseConfigured, uploadPortfolioImage } = useSupabaseStorage()
+const {
+  adminEmail,
+  isAllowedAdmin,
+  isReady: isAuthReady,
+  isSupabaseConfigured: isAuthConfigured,
+  sendMagicLink,
+  signInWithPassword,
+  signOut
+} = useAdminAuth()
 const isUploading = ref(false)
+const isSigningIn = ref(false)
 
 const categories = Object.entries(categoryLabels) as Array<[PortfolioCategory, string]>
 
@@ -136,6 +150,34 @@ const removeItem = (id: string) => {
   notice.value = 'Portfolio item deleted.'
 }
 
+const loginWithPassword = async () => {
+  isSigningIn.value = true
+  notice.value = ''
+
+  try {
+    await signInWithPassword(loginForm.email, loginForm.password)
+    notice.value = 'Admin login complete.'
+  } catch (error) {
+    notice.value = error instanceof Error ? error.message : 'Login failed.'
+  } finally {
+    isSigningIn.value = false
+  }
+}
+
+const requestMagicLink = async () => {
+  isSigningIn.value = true
+  notice.value = ''
+
+  try {
+    await sendMagicLink(loginForm.email)
+    notice.value = 'Magic link sent. Check your email, then return to this page.'
+  } catch (error) {
+    notice.value = error instanceof Error ? error.message : 'Could not send magic link.'
+  } finally {
+    isSigningIn.value = false
+  }
+}
+
 onMounted(() => loadManagedItems())
 
 useSeoMeta({
@@ -149,11 +191,50 @@ useSeoMeta({
     <section class="admin-hero">
       <p class="eyebrow">ADMIN</p>
       <h1>Portfolio Manager</h1>
-      <p>Add portfolio projects without editing TypeScript data files. Saved items are stored in this browser.</p>
+      <p>Add portfolio projects without editing TypeScript data files. Admin access is limited to {{ adminEmail }}.</p>
       <NuxtLink class="btn ghost" to="/#portfolio">Back to Site</NuxtLink>
     </section>
 
-    <section class="admin-layout">
+    <section v-if="!isAuthReady" class="admin-layout">
+      <div class="admin-form">
+        <h2>Checking Admin Session</h2>
+        <p class="admin-empty">Please wait while Supabase Auth verifies the session.</p>
+      </div>
+    </section>
+
+    <section v-else-if="!isAllowedAdmin" class="admin-layout admin-login-layout">
+      <form class="admin-form admin-login-form" @submit.prevent="loginWithPassword">
+        <div class="admin-form-heading">
+          <h2>Admin Login</h2>
+        </div>
+
+        <p v-if="!isAuthConfigured" class="form-notice" role="status">
+          Supabase anon key is required before login can work.
+        </p>
+
+        <label>
+          <span>Email</span>
+          <input v-model="loginForm.email" type="email" autocomplete="email" placeholder="nxmdev02@gmail.com">
+        </label>
+
+        <label>
+          <span>Password</span>
+          <input v-model="loginForm.password" type="password" autocomplete="current-password" placeholder="Supabase account password">
+        </label>
+
+        <button class="btn primary" type="submit" :disabled="isSigningIn || !isAuthConfigured">
+          {{ isSigningIn ? 'Checking Login' : 'Login' }}
+        </button>
+
+        <button class="btn ghost" type="button" :disabled="isSigningIn || !isAuthConfigured" @click="requestMagicLink">
+          Send Magic Link
+        </button>
+
+        <p v-if="notice" class="form-notice" role="status">{{ notice }}</p>
+      </form>
+    </section>
+
+    <section v-else class="admin-layout">
       <form class="admin-form" @submit.prevent="saveItem">
         <div class="admin-form-heading">
           <h2>{{ editingId ? 'Edit Portfolio' : 'New Portfolio' }}</h2>
@@ -161,6 +242,11 @@ useSeoMeta({
             <Plus :size="18" aria-hidden="true" />
             New
           </button>
+        </div>
+
+        <div class="admin-session-bar">
+          <span>Signed in as {{ adminEmail }}</span>
+          <button type="button" @click="signOut">Sign Out</button>
         </div>
 
         <label>
