@@ -4,6 +4,7 @@
     <PortfolioSection />
     <HistorySection />
     <TeamSection />
+    <StudioCtaSection />
     <LocationSection />
     <ContactSection />
   </main>
