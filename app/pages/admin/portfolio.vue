@@ -20,6 +20,7 @@ const emptyForm = () => ({
 
 const form = reactive(emptyForm())
 const notice = ref('')
+const fieldErrors = reactive<Record<string, string>>({})
 const loginForm = reactive({
   email: 'nxmdev02@gmail.com',
   password: ''
@@ -59,6 +60,11 @@ const resetForm = () => {
   Object.assign(form, emptyForm())
   uploadedImages.value = []
   editingId.value = ''
+  Object.keys(fieldErrors).forEach((key) => delete fieldErrors[key])
+}
+
+const clearFieldError = (field: string) => {
+  delete fieldErrors[field]
 }
 
 const onImageFilesChange = async (event: Event) => {
@@ -107,9 +113,14 @@ const buildItem = (): PortfolioItem => {
 
 const saveItem = () => {
   const item = buildItem()
+  Object.keys(fieldErrors).forEach((key) => delete fieldErrors[key])
 
-  if (!item.title || !item.summary || !item.description) {
-    notice.value = 'Title, summary, and description are required.'
+  if (!item.title) fieldErrors.title = 'Project title is required.'
+  if (!item.summary) fieldErrors.summary = 'Summary is required.'
+  if (!item.description) fieldErrors.description = 'Description is required.'
+
+  if (Object.keys(fieldErrors).length) {
+    notice.value = 'Please check the required fields.'
     return
   }
 
@@ -251,7 +262,16 @@ useSeoMeta({
 
         <label>
           <span>Project Title *</span>
-          <input v-model="form.title" type="text" placeholder="Walnut Library Wall">
+          <input
+            v-model="form.title"
+            type="text"
+            placeholder="Example: Walnut Library Wall"
+            :class="{ 'has-error': fieldErrors.title }"
+            :aria-invalid="Boolean(fieldErrors.title)"
+            aria-describedby="portfolio-title-error"
+            @input="clearFieldError('title')"
+          >
+          <small id="portfolio-title-error" class="field-error">{{ fieldErrors.title }}</small>
         </label>
 
         <div class="admin-form-grid">
@@ -269,48 +289,66 @@ useSeoMeta({
 
         <label>
           <span>Custom URL ID</span>
-          <input v-model="form.id" type="text" placeholder="Auto-created from title if empty">
+          <input v-model="form.id" type="text" placeholder="Optional. Example: walnut-library-wall-2026">
         </label>
 
         <label>
           <span>Summary *</span>
-          <textarea v-model="form.summary" rows="3" placeholder="Short text shown on the folder card." />
+          <textarea
+            v-model="form.summary"
+            rows="3"
+            placeholder="Example: A wall-sized walnut cabinet with integrated display shelving."
+            :class="{ 'has-error': fieldErrors.summary }"
+            :aria-invalid="Boolean(fieldErrors.summary)"
+            aria-describedby="portfolio-summary-error"
+            @input="clearFieldError('summary')"
+          />
+          <small id="portfolio-summary-error" class="field-error">{{ fieldErrors.summary }}</small>
         </label>
 
         <label>
           <span>Description *</span>
-          <textarea v-model="form.description" rows="7" placeholder="Detailed project story shown on the detail page." />
+          <textarea
+            v-model="form.description"
+            rows="7"
+            placeholder="Example: We designed the storage around the room width, existing wiring, and daily use."
+            :class="{ 'has-error': fieldErrors.description }"
+            :aria-invalid="Boolean(fieldErrors.description)"
+            aria-describedby="portfolio-description-error"
+            @input="clearFieldError('description')"
+          />
+          <small id="portfolio-description-error" class="field-error">{{ fieldErrors.description }}</small>
         </label>
 
         <div class="admin-form-grid">
           <label>
             <span>Client</span>
-            <input v-model="form.client" type="text" placeholder="Private Client">
+            <input v-model="form.client" type="text" placeholder="Example: Private Client">
           </label>
           <label>
             <span>Period</span>
-            <input v-model="form.period" type="text" placeholder="Mar 2026 - May 2026">
+            <input v-model="form.period" type="text" placeholder="Example: Mar 2026 - May 2026">
           </label>
         </div>
 
         <label>
           <span>Location</span>
-          <input v-model="form.location" type="text" placeholder="Seoul, Seongdong-gu">
+          <input v-model="form.location" type="text" placeholder="Example: Seoul, Seongdong-gu">
         </label>
 
         <label>
           <span>Materials</span>
-          <textarea v-model="form.materialsText" rows="4" placeholder="Walnut&#10;Natural Oil&#10;Brass Pulls" />
+          <textarea v-model="form.materialsText" rows="4" placeholder="Example:&#10;Walnut&#10;Natural Oil&#10;Brass Pulls" />
         </label>
 
         <label>
           <span>Cover Image URL</span>
-          <input v-model="form.coverImage" type="text" placeholder="/images/your-cover.jpg or https://...">
+          <input v-model="form.coverImage" type="text" placeholder="Optional. Upload images below or paste a URL.">
         </label>
 
         <label>
           <span>Gallery Image URLs</span>
-          <textarea v-model="form.imagesText" rows="5" placeholder="/images/detail-01.jpg&#10;/images/detail-02.jpg" />
+          <textarea v-model="form.imagesText" rows="5" placeholder="Optional. Example:&#10;/images/detail-01.jpg&#10;https://..." />
         </label>
 
         <label class="admin-file-drop" :class="{ 'is-uploading': isUploading }">

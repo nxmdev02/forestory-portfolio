@@ -1747,6 +1747,34 @@ h3 {
   font: inherit;
 }
 
+.admin-form input::placeholder,
+.admin-form textarea::placeholder {
+  color: #9b8f82;
+}
+
+.admin-form input.has-error,
+.admin-form textarea.has-error {
+  border-color: #c84630;
+  background: #fff8f6;
+}
+
+.admin-form input.has-error:focus,
+.admin-form textarea.has-error:focus {
+  border-color: #c84630;
+  outline-color: rgba(200, 70, 48, 0.22);
+}
+
+.field-error {
+  min-height: 0;
+  color: #c84630;
+  font-size: 0.82rem;
+  font-weight: 900;
+}
+
+.field-error:empty {
+  display: none;
+}
+
 .admin-form textarea {
   resize: vertical;
 }
