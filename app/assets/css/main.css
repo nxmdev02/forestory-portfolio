@@ -563,26 +563,31 @@ h3 {
 .portfolio-pagination {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 10px;
   align-items: center;
   justify-content: center;
   margin-top: 34px;
 }
 
 .portfolio-pagination button {
-  display: inline-flex;
-  min-width: 42px;
-  min-height: 42px;
+  display: grid;
+  width: 42px;
+  height: 42px;
   align-items: center;
   justify-content: center;
-  gap: 6px;
+  place-items: center;
   border: 1px solid rgba(105, 67, 39, 0.2);
   border-radius: 999px;
   background: rgba(255, 248, 237, 0.8);
   color: var(--walnut);
-  padding: 0 14px;
+  padding: 0;
   font-weight: 900;
+  line-height: 1;
   transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease;
+}
+
+.portfolio-pagination button svg {
+  display: block;
 }
 
 .portfolio-pagination button:hover:not(:disabled),

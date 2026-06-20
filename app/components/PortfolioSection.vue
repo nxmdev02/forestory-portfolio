@@ -129,9 +129,14 @@ onBeforeUnmount(() => {
     </div>
 
     <nav v-if="totalPages > 1" class="portfolio-pagination" aria-label="Portfolio pagination">
-      <button type="button" :disabled="currentPage === 1" @click="goToPage(currentPage - 1)">
+      <button
+        class="pagination-icon-button"
+        type="button"
+        :disabled="currentPage === 1"
+        aria-label="Previous page"
+        @click="goToPage(currentPage - 1)"
+      >
         <ChevronLeft :size="16" aria-hidden="true" />
-        Previous
       </button>
       <button
         v-for="page in totalPages"
@@ -143,8 +148,13 @@ onBeforeUnmount(() => {
       >
         {{ page }}
       </button>
-      <button type="button" :disabled="currentPage === totalPages" @click="goToPage(currentPage + 1)">
-        Next
+      <button
+        class="pagination-icon-button"
+        type="button"
+        :disabled="currentPage === totalPages"
+        aria-label="Next page"
+        @click="goToPage(currentPage + 1)"
+      >
         <ChevronRight :size="16" aria-hidden="true" />
       </button>
     </nav>
