@@ -23,6 +23,8 @@ const notice = ref('')
 const uploadedImages = ref<string[]>([])
 const editingId = ref('')
 const { managedItems, loadManagedItems, saveManagedItem, deleteManagedItem } = usePortfolioStore()
+const { isSupabaseConfigured, uploadPortfolioImage } = useSupabaseStorage()
+const isUploading = ref(false)
 
 const categories = Object.entries(categoryLabels) as Array<[PortfolioCategory, string]>
 
@@ -45,22 +47,26 @@ const resetForm = () => {
   editingId.value = ''
 }
 
-const readFileAsDataUrl = (file: File) =>
-  new Promise<string>((resolve, reject) => {
-    const reader = new FileReader()
-    reader.onload = () => resolve(String(reader.result))
-    reader.onerror = () => reject(reader.error)
-    reader.readAsDataURL(file)
-  })
-
 const onImageFilesChange = async (event: Event) => {
   const input = event.target as HTMLInputElement
   const files = Array.from(input.files ?? [])
   if (!files.length) return
 
-  const images = await Promise.all(files.map(readFileAsDataUrl))
-  uploadedImages.value.push(...images)
-  input.value = ''
+  isUploading.value = true
+  notice.value = isSupabaseConfigured.value ? 'Uploading images to Supabase Storage.' : 'Supabase is not configured. Images will be stored in this browser.'
+
+  try {
+    const uploaded = await Promise.all(files.map(uploadPortfolioImage))
+    uploadedImages.value.push(...uploaded.map((item) => item.url))
+    notice.value = uploaded.some((item) => item.storage === 'supabase')
+      ? 'Images uploaded to Supabase Storage.'
+      : 'Images added locally in this browser.'
+  } catch (error) {
+    notice.value = error instanceof Error ? error.message : 'Image upload failed.'
+  } finally {
+    isUploading.value = false
+    input.value = ''
+  }
 }
 
 const buildItem = (): PortfolioItem => {
@@ -221,20 +227,22 @@ useSeoMeta({
           <textarea v-model="form.imagesText" rows="5" placeholder="/images/detail-01.jpg&#10;/images/detail-02.jpg" />
         </label>
 
-        <label class="admin-file-drop">
+        <label class="admin-file-drop" :class="{ 'is-uploading': isUploading }">
           <ImagePlus :size="22" aria-hidden="true" />
           <span>Upload Gallery Photos</span>
-          <small>Images are stored in this browser for now.</small>
-          <input type="file" accept="image/*" multiple @change="onImageFilesChange">
+          <small>
+            {{ isSupabaseConfigured ? 'Images will be uploaded to Supabase Storage.' : 'Supabase is not configured. Images will stay in this browser.' }}
+          </small>
+          <input type="file" accept="image/*" multiple :disabled="isUploading" @change="onImageFilesChange">
         </label>
 
         <div v-if="uploadedImages.length" class="admin-upload-preview">
           <img v-for="image in uploadedImages" :key="image" :src="image" alt="Uploaded preview">
         </div>
 
-        <button class="btn primary" type="submit">
+        <button class="btn primary" type="submit" :disabled="isUploading">
           <Save :size="18" aria-hidden="true" />
-          Save Portfolio
+          {{ isUploading ? 'Uploading Images' : 'Save Portfolio' }}
         </button>
 
         <p v-if="notice" class="form-notice" role="status">{{ notice }}</p>
