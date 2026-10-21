@@ -73,3 +73,13 @@ bun run preview
 ```
 
 Check out the [deployment documentation](https://nuxt.com/docs/getting-started/deployment) for more information.
+
+## Vercel Web Analytics
+
+Web Analytics is registered through the `@vercel/analytics/nuxt` module. Enable
+Web Analytics in the Vercel project's Analytics tab, then deploy the app to start
+collecting page views, including client-side navigation.
+
+The npm override keeps Analytics on the project's Vue Router 5 version used by
+Nuxt 4.4. Analytics 2.0.1 still declares an optional Vue Router 4 peer dependency;
+its Nuxt integration uses Nuxt's routing APIs.
